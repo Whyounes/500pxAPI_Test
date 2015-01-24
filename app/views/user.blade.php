@@ -3,7 +3,7 @@
 @section("content")
 <div class="row photos">
     <div class="col-lg-12">
-        <h1 class="page-header">{{ $user->fullname }}</h1>
+        <h1 class="page-header">{{ $user['fullname'] }}</h1>
     </div>
 
     @include('partials/photos', ['photos' => $photos])

@@ -73,8 +73,9 @@ require $framework.'/Illuminate/Foundation/start.php';
 App::singleton('pxoauth', function(){
     $consumer_key = 'TxNYEWxvU26cylAkxTc1KgNmXCPvFc1EazhIk5Po';
     $consumer_secret = 'n88vhgVgpkaCr3I0h1yB1bmkhy72jPzhhzFSbpYI';
+    $host = 'https://api.500px.com/v1/';
 
-    $oauth = new PxOAuth($consumer_key, $consumer_secret);
+    $oauth = new PxOAuth($host, $consumer_key, $consumer_secret);
 
     return $oauth;
 });
