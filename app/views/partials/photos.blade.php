@@ -12,7 +12,7 @@
 
 @foreach($photos as $photo)
     <div class="col-lg-3 col-md-4 col-xs-6 thumb" data-photo-id="{{ $photo['id'] }}">
-        <a class="thumbnail" target="_blank" href="http://500px.com{{ $photo['url'] }}">
+        <a class="thumbnail" href="/photo/{{ $photo['id'] }}">
             <img class="img-responsive" src="{{ $photo['images'][0]['url'] }}" alt="{{ $photo['name'] }}">
         </a>
         <div class="caption">

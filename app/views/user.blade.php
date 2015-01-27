@@ -12,3 +12,7 @@
 
 <hr>
 @endsection
+
+@section("scripts")
+<script src="/js/vote_favorite.js" type="text/javascript"></script>
+@endsection

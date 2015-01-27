@@ -1,6 +1,9 @@
 <?php
 
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class PXController extends BaseController {
 
@@ -49,6 +52,129 @@ class PXController extends BaseController {
         return View::make('user', ['photos' => $result['photos'], 'user' => $user['user']]);
     }
 
-}
+    public function favorite(){
+        $photoId = Input::get("pid");
 
- 
+        $px = App::make('pxoauth');
+        $url = "photos/{$photoId}/favorite";
+
+        try {
+            $result = $px->client->post($url);
+        }
+        catch(RequestException $e){
+            $response = $e->getResponse();
+
+            if($response->getStatusCode() === 403){
+                return (string) $response->getBody();
+            }
+
+            return ["status" => 500, "error" => "A serious bug occurred."];
+        }
+
+        return (string) $result->getBody();
+    }
+
+    public function vote(){
+        $photoId = Input::get("pid");
+        //you can disable the link by using `voted` true
+        $px = App::make('pxoauth');
+        $url = "photos/{$photoId}/vote";
+        try {
+            $result = $px->client->post($url, ["body" => ['vote' => '1']]);
+        }
+        catch(RequestException $e){
+            $response = $e->getResponse();
+
+            if($response->getStatusCode() === 403){
+                return (string) $response->getBody();
+            }
+
+            return ["status" => 500, "error" => "A serious bug occurred."];
+        }
+
+        return (string) $result->getBody();
+    }
+
+    public function show($id){
+        $px = App::make('pxoauth');
+
+        try {
+            $photo = $px->client->get("photos/{$id}?image_size=4")->json();
+            $comments = $px->client->get("photos/{$id}/comments?nested=true")->json();
+
+            return View::make('single', ['photo' => $photo['photo'], 'comments' => $comments['comments']]);
+        }
+        catch(RequestException $e){
+            $response = $e->getResponse();
+
+            if($response->getStatusCode() === 404){
+                // handle 404: photo not found
+            }
+        }
+    }
+
+    public function comment(){
+        $photoId = Input::get('pid');
+        $comment = Input::get('comment');
+
+        $px = App::make('pxoauth');
+        $result = $px->client->post("photos/{$photoId}/comments", ['body' => ['body' => $comment]])->json();
+
+        if($result['status'] != 200){
+            // handle 400: Bad request.
+        }
+
+        return Redirect::back();
+    }
+    
+    public function upload(){
+        try {
+            $px = App::make('pxoauth');
+            $result = $px->client->post('photos/upload', [
+                'body'  => [
+                    'name'          => Input::get('name'),
+                    'description'   => Input::get('description'),
+                    'file'          => fopen(Input::file('photo')->getPathname(), 'r'),
+                ]
+            ])->json();
+
+            // you may want to pass a success message
+            return Redirect::to("/photo/{$result['photo']['id']}");
+        }
+        catch(RequestException $e){
+            $response = $e->getResponse();
+
+            if($response->getStatusCode() === 402){
+                // handle 402: Server error
+            }
+        }
+
+    }//upload
+
+    public function authorize(){
+        $px = App::make('pxoauth');
+        $res = $px->client->post("oauth/request_token", ["body" => ["oauth_callback" => "http://vaprobash.dev/oauth_callback"]]);
+
+        // check if values are present
+        parse_str((string) $res->getBody(), $tokens);
+
+        Session::set('token', $tokens['oauth_token']);
+        Session::set('token_secret', $tokens['oauth_token_secret']);
+
+        $redirectTo = $px->host.'oauth/authorize?oauth_token='.$tokens['oauth_token'].'&oauth_callback=http://vaprobash.dev/oauth_callback';
+
+        return Redirect::to($redirectTo);
+    }
+
+    public function oauth_callback(){
+        $tokens = Input::all();
+
+        $px = App::make('pxoauth');
+        $res = $px->client->post('oauth/access_token', ["body" => [
+            'oauth_verifier' => $tokens['oauth_verifier']
+        ]]);
+
+        dump($res);die();
+        dump((string) $res->getBody());die();
+    }
+}

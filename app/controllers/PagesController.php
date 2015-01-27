@@ -6,4 +6,7 @@ class PagesController extends BaseController {
         return View::make('upload');
     }
 
+    public function login(){
+        return View::make('authorize');
+    }
 }
