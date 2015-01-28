@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section("content")
-
+<br/>
 <div class="row">
 {{ Form::open(['route' => 'photo.upload', 'files' => true]) }}
     <div class="form-group">
@@ -25,8 +25,4 @@
 <!-- .row -->
 
 <br/>
-@endsection
-
-@section("styles")
-
 @endsection

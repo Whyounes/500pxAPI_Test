@@ -144,8 +144,8 @@ class PXController extends BaseController {
         catch(RequestException $e){
             $response = $e->getResponse();
 
-            if($response->getStatusCode() === 402){
-                // handle 402: Server error
+            if($response->getStatusCode() === 422){
+                // handle 422: Server error
             }
         }
 
@@ -170,8 +170,11 @@ class PXController extends BaseController {
         $tokens = Input::all();
 
         $px = App::make('pxoauth');
-        $res = $px->client->post('oauth/access_token', ["body" => [
+        $res = $px->client->post('oauth/access_token', ["headers" => [
             'oauth_verifier' => $tokens['oauth_verifier']
+        ],
+        "body"  => [
+            'oauth_callback'    => 'http://vaprobash.dev/oauth_callback'
         ]]);
 
         dump($res);die();

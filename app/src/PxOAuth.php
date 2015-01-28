@@ -32,8 +32,8 @@ class PxOAuth{
         $params = [
             'consumer_key'      => $this->consumer_key,
             'consumer_secret'   => $this->consumer_secret,
-            'token'             => $token,
-            'token_secret'      => $token_secret
+            'token'             => $this->token,
+            'token_secret'      => $this->token_secret
         ];
 
         /*if($token){

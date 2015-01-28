@@ -11,33 +11,23 @@
 
 @section("content")
     <div class="row">
-        <!-- Blog Post Content Column -->
         <div class="col-lg-10">
-            <!-- Title -->
             <h1>{{ $photo['name'] }}</h1>
-
-            <!-- Author -->
             <p class="lead">
                 by <a href="/user/{{ $photo['user']['id'] }}">{{ $photo['user']['username'] }}</a>
             </p>
-
             <hr>
 
-            <!-- Date/Time -->
             <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $photo['created_at'] }}</p>
-
             <hr>
 
-            <!-- Preview Image -->
             <img class="img-responsive" src="{{ $photo['images'][0]['url'] }}" alt="">
-
             <hr>
             @if($photo['description'])
                 <p class="lead">{{ $photo['description'] }}</p>
             @endif
             <hr>
 
-            <!-- Blog Comments -->
 
             <!-- Comments Form -->
             <div class="well">
@@ -54,7 +44,6 @@
             <hr>
 
             @foreach($comments as $comment)
-                <!-- Comment -->
                 <div class="media">
                     <a class="pull-left" href="#">
                         <img class="media-object" src="{{ $comment['user']['userpic_url'] }}" alt="">
@@ -64,7 +53,6 @@
                             <small>{{ $comment['created_at'] }}</small>
                         </h4>
                         {{ $comment['body'] }}
-                        <!-- Nested Comment -->
                         @if(count($comment['replies']))
                             @foreach($comment['replies'] as $ncomment)
                                 <div class="media">
@@ -80,7 +68,6 @@
                                 </div>
                             @endforeach
                         @endif
-                        <!-- End Nested Comment -->
                     </div>
                 </div>
             @endforeach
@@ -88,7 +75,6 @@
         </div>
 
     </div>
-    <!-- /.row -->
 
     <hr>
 @endsection

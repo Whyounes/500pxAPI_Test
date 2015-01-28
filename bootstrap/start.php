@@ -72,13 +72,10 @@ require $framework.'/Illuminate/Foundation/start.php';
 
 App::singleton('pxoauth', function(){
     $host = 'https://api.500px.com/v1/';
-    $consumer_key = 'TxNYEWxvU26cylAkxTc1KgNmXCPvFc1EazhIk5Po';
-    $consumer_secret = 'n88vhgVgpkaCr3I0h1yB1bmkhy72jPzhhzFSbpYI';
-    $token = 'ZLpvl6jvoGJHh5vFZv2sy3uWwSbUdNpLVaB037Zh';
-    $token_secret = 'UC2Vu48bk9bXhKs7sKzxXdayt1Q5m0EStKblFtjg';
-    //$token = App::make("session")->get('token', NULL);
+    // load px.php config file
+    $config = App::make('config')['px'];
 
-    $oauth = new PxOAuth($host, $consumer_key, $consumer_secret, $token, $token_secret);
+    $oauth = new PxOAuth($host, $config['consumer_key'], $config['consumer_secret'], $config['token'], $config['token_secret']);
 
     return $oauth;
 });
