@@ -22,10 +22,3 @@ Route::post('/photo/comment', ['uses' => 'PXController@comment']);
 Route::get('/upload', ['uses' => 'PagesController@photoUpload']);
 
 Route::post('/photo/upload', ['as' => 'photo.upload', 'uses' => 'PXController@upload']);
-
-
-// Authorization
-
-Route::get('/authorize', ['uses' => 'PXController@authorize']);
-
-Route::get('/oauth_callback', ['uses' => 'PXController@oauth_callback']);

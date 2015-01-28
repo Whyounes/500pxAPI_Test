@@ -150,34 +150,4 @@ class PXController extends BaseController {
         }
 
     }//upload
-
-    public function authorize(){
-        $px = App::make('pxoauth');
-        $res = $px->client->post("oauth/request_token", ["body" => ["oauth_callback" => "http://vaprobash.dev/oauth_callback"]]);
-
-        // check if values are present
-        parse_str((string) $res->getBody(), $tokens);
-
-        Session::set('token', $tokens['oauth_token']);
-        Session::set('token_secret', $tokens['oauth_token_secret']);
-
-        $redirectTo = $px->host.'oauth/authorize?oauth_token='.$tokens['oauth_token'].'&oauth_callback=http://vaprobash.dev/oauth_callback';
-
-        return Redirect::to($redirectTo);
-    }
-
-    public function oauth_callback(){
-        $tokens = Input::all();
-
-        $px = App::make('pxoauth');
-        $res = $px->client->post('oauth/access_token', ["headers" => [
-            'oauth_verifier' => $tokens['oauth_verifier']
-        ],
-        "body"  => [
-            'oauth_callback'    => 'http://vaprobash.dev/oauth_callback'
-        ]]);
-
-        dump($res);die();
-        dump((string) $res->getBody());die();
-    }
 }
