@@ -13,6 +13,9 @@
 
 $app = new Illuminate\Foundation\Application;
 
+$dotenv = new Dotenv\Dotenv(__DIR__."/..");
+$dotenv->load();
+
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment
