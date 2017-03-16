@@ -6,7 +6,7 @@ require_once "recipe/common.php";
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
-set('ssh_type', 'ext-ssh2');
+set('ssh_type', 'native');
 set('default_stage', 'staging');
 env('deploy_path', '/var/www');
 set('copy_dirs', [
@@ -40,10 +40,9 @@ set('shared_dirs', [
 set('writable_dirs', get('shared_dirs'));
 set('http_user', 'www-data');
 
-server('digitalocean', '104.131.27.106')
+server('digitalocean', '174.138.78.215')
     ->identityFile()
-    ->user($_ENV['staging_server_user'])
-    ->password($_ENV['staging_server_password'])
+    ->user('root')
     ->stage('staging');
 
 task('deploy:upload', function() {
