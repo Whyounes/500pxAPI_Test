@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'consumer_key'      => env('consumer_key'),
-    'consumer_secret'   => env('consumer_secret'),
-    'token'             => env('token'),
-    'token_secret'      => env('token_secret'),
+    'consumer_key'      => isset($_ENV['consumer_key']) ?: '',
+    'consumer_secret'   => isset($_ENV['consumer_secret']) ?: '',
+    'token'             => isset($_ENV['token']) ?: '',
+    'token_secret'      => isset($_ENV['token_secret']) ?: '',
 ];
