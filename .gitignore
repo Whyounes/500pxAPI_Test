@@ -1,5 +1,4 @@
 /vendor
 /.idea
 /.vagrant
-composer.lock
 .env.local
