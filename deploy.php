@@ -1,6 +1,6 @@
 <?php 
 
-require_once "recipe/common.php"
+require_once "recipe/common.php";
 
 set('ssh_type', 'native');
 set('default_stage', 'staging');
