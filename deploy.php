@@ -26,7 +26,7 @@ set('copy_dirs', [
     'artisan',
     '.env',
 ]);
-// set('shared_files', ['.env']);
+
 set('shared_dirs', [
     'app/storage/cache',
     'app/storage/logs',
