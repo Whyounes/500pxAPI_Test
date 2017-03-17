@@ -1,9 +1,6 @@
 <?php 
 
-require_once "recipe/common.php";
-
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
+require_once "recipe/common.php"
 
 set('ssh_type', 'native');
 set('default_stage', 'staging');
